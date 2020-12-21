@@ -1,0 +1,63 @@
+{% load tag_library %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Инфляция в России</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    {% block content %}
+      <div class="row">
+        <h1 class="col s12">Инфляция в России</h1>
+        <div class="col s12 m8">
+          <table>
+            <tr>
+              {% for name in title_info %}
+                {% if name == 'Суммарная' %}
+                  <td bgcolor="LightGray"> {{ name }} </td>
+                {% else %}
+                  <td> {{ name }} </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+            {% for years in inflation_list %}
+            <tr>
+              {% with years|first as first %}
+                <td> {{ first }} </td>
+              {% endwith %}
+              {% with years|slice:"1:-1" as year %}
+                {% for value in year %}
+                  {% if value|to_float >= 5.0 %}
+                    <td bgcolor="Salmon"> {{ value }} </td>
+                  {% elif value|to_float >= 2.0 and value|to_float < 5.0 %}
+                    <td bgcolor="DarkSalmon"> {{ value }} </td>
+                  {% elif value|to_float >= 1.0 and value|to_float < 2.0 %}
+                    <td bgcolor="LightSalmon"> {{ value }} </td>
+                  {% elif value|to_float < 0 %}
+                    <td bgcolor="LightGreen"> {{ value }} </td>
+                  {% else %}
+                    <td> {{ value }} </td>
+                  {% endif %}
+                {% endfor %}
+              {% endwith %}
+              {% with years|last as last %}
+                <td bgcolor="LightGray"> {{ last }} </td>
+              {% endwith %}
+            {% endfor %}
+            </tr>
+          </table>
+        </div>
+      </div>
+    {% endblock %}
+  </body>
+</html>

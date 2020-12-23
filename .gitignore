@@ -8,7 +8,6 @@ Netology/
 *.sqlite3
 env/
 /__pycache__
-task3/
 ### Project specific ###
 settings_local.py
 
